@@ -6,31 +6,39 @@ Created on Wed Feb  1 09:57:13 2023
 """
 
 
-
-
-
 def crear_diccionario()-> dict:
     diccionario={
-        "robot_r": "Inicio"
+        "robot_r": "Inicio",
+        "(": "PARENTESIS",
+        "VARS" : "Variable"
+        
         }    
     return diccionario
 
 def leer_archivo(ruta)->None:
     archivo = open(ruta)
-    linea = " "
-    while(linea != None):
-        linea = archivo.readline()
-    
-        lista_palabras = linea.split(" ")
+    linea= ""
+    for linea in archivo:
+        print(linea)
         diccionario = crear_diccionario()
-        for palabra in lista_palabras :
-            palabra = palabra.lower()
-            if palabra in diccionario:
-                t = diccionario[palabra]
-            else:
-                t = "NO"
-        print(t)
+        palabracreada=""
+        lexer = ""
+        for letra in linea :
+                
+                if((letra == " ") or (letra == "\n") or(letra == "(")) :
+                    if (palabracreada != "\n"):
+                        palabracreada = palabracreada.lower()
+                        if(palabracreada in diccionario):               
+                            lexer = lexer + " " + diccionario[palabracreada] 
+                        else:
+                            lexer = lexer + " var"
+                        if(letra == "("):
+                            lexer = lexer + " " + diccionario[letra] 
+                    # hacer que escriba en un archivo lo que dice el lexer
+                    palabracreada = ""
+                else:
+                    palabracreada = palabracreada + letra
+        print(lexer)
     pass
-
 print(leer_archivo("programa.txt"))
     
