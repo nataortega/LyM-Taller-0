@@ -9,36 +9,72 @@ Created on Wed Feb  1 09:57:13 2023
 def crear_diccionario()-> dict:
     diccionario={
         "robot_r": "Inicio",
-        "(": "PARENTESIS",
-        "VARS" : "Variable"
+       "(": "PARENTESISABIERTO",
+       "vars" : "DECLVAR",
+       ";": "POINTCOME",
+       ",": "COME",
+       ":":"dospuntos",
+       "procs": "PROCEDIMIENTOS",
+       "putcb" : "PUTCB",
+       'if'       : 'IF',
+       'else'     : 'ELSE',
+       'while'    : 'WHILE',
+       'break'    : 'BREAK',
+       'continue' : 'CONTINUE',
+       "[": "SQPARENTESISABIERTO",
+       "]": "SQPARENTESISCERRADO",
         
         }    
     return diccionario
 
+
+
+def crear_lista():
+    lista = [
+        "[","]","(",")",";",",",":","|"," ", ",","\n"]
+    return lista
+
+def listanumeros():
+    lista = [
+        "1","2","3","4","5","6","7","8","9","0"]
+    return lista
+
 def leer_archivo(ruta)->None:
     archivo = open(ruta)
-    linea= ""
-    for linea in archivo:
-        print(linea)
-        diccionario = crear_diccionario()
-        palabracreada=""
-        lexer = ""
-        for letra in linea :
-                
-                if((letra == " ") or (letra == "\n") or(letra == "(")) :
-                    if (palabracreada != "\n"):
-                        palabracreada = palabracreada.lower()
-                        if(palabracreada in diccionario):               
-                            lexer = lexer + " " + diccionario[palabracreada] 
-                        else:
-                            lexer = lexer + " var"
-                        if(letra == "("):
-                            lexer = lexer + " " + diccionario[letra] 
-                    # hacer que escriba en un archivo lo que dice el lexer
-                    palabracreada = ""
-                else:
-                    palabracreada = palabracreada + letra
-        print(lexer)
-    pass
-print(leer_archivo("programa.txt"))
+    lexer =""
+    palabracreada = ""
+    lista = crear_lista()
+    listanum = listanumeros()
+    diccionario = crear_diccionario()
+    for linea in archivo :
+        linea = linea 
     
+    
+        for letra in linea :
+                    
+            if(letra in lista) :
+                palabracreada = palabracreada.lower()
+                    
+                if (palabracreada in diccionario) or (letra in diccionario) :
+                    print(palabracreada)
+                    if(palabracreada in diccionario):         
+                        lexer = lexer + " " + diccionario[palabracreada] 
+                    elif(palabracreada != ""):
+                            if(palabracreada in listanum):
+                                lexer = lexer + " " + "INT"
+                            else:   
+                                 lexer = lexer + " " + "var"
+                    if letra in diccionario:
+                        lexer = lexer + " " + diccionario[letra] 
+                        # hacer que escriba en un archivo lo que dice el lexer
+                    
+                    palabracreada = ""
+            else:
+            
+                palabracreada = palabracreada + letra
+               
+    print(lexer)
+    pass
+
+
+print(leer_archivo("programa.txt"))
