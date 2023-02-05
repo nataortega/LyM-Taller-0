@@ -6,14 +6,21 @@ Created on Wed Feb  1 09:57:13 2023
 """
 
 
+
+
+
 def crear_diccionario()-> dict:
     diccionario={
         "robot_r": "Inicio",
        "(": "PARENTESISABIERTO",
-       "vars" : "DECLVAR",
        ";": "POINTCOME",
        ",": "COME",
        ":":"dospuntos",
+       "[": "SQPARENTESISABIERTO",
+       "]": "SQPARENTESISCERRADO",
+       "|": "OR",
+       #PALABRAS RESERVADAS
+       "vars" : "DECLVAR",
        "procs": "PROCEDIMIENTOS",
        "putcb" : "PUTCB",
        'if'       : 'IF',
@@ -21,8 +28,32 @@ def crear_diccionario()-> dict:
        'while'    : 'WHILE',
        'break'    : 'BREAK',
        'continue' : 'CONTINUE',
-       "[": "SQPARENTESISABIERTO",
-       "]": "SQPARENTESISCERRADO",
+       "repeat" : "REPEAT",
+       "do": "DO",
+       #INSTRUCCIONES
+       "put":"PUT",
+       "assignto":"ASSIGNTO",
+       "goto": "GOTO",
+       "move": "CANMOVETOTHE",
+       "turn": "CANMOVETOTHE",
+       "face": "CANMOVETOTHE",
+       "pick": "CANMOVETOTHE",
+       "movetothe": "MOVETOTHE",
+       "moveindir": "MOVEINDIR",
+       "jumptothe": "JUMPTOTHE",
+       "jumpindir": "JUMPINDIR",
+       "nop": "NOP",
+       #condiciones
+       "facing": "FACING",
+       "canput": "CANPUT",
+       "canpick": "CANPICK",
+       "canmoveindir": "CANMOVEINDIR",
+       "canjumpindir": "CANJUMPINDIR",
+       "canmovetothe": "CANMOVETOTHE",
+       "canjumptothe": "CANJUMPTOTHE",
+       
+       
+       
         
         }    
     return diccionario
@@ -47,15 +78,15 @@ def leer_archivo(ruta)->None:
     listanum = listanumeros()
     diccionario = crear_diccionario()
     for linea in archivo :
-        linea = linea 
+        linea = " " + linea + " " 
     
     
         for letra in linea :
                     
-            if(letra in lista) :
+            if(letra in lista) or (letra in listanum):
                 palabracreada = palabracreada.lower()
                     
-                if (palabracreada in diccionario) or (letra in diccionario) :
+                if (palabracreada in diccionario) or (letra in diccionario) or (letra in listanum):
                     print(palabracreada)
                     if(palabracreada in diccionario):         
                         lexer = lexer + " " + diccionario[palabracreada] 
@@ -64,6 +95,9 @@ def leer_archivo(ruta)->None:
                                 lexer = lexer + " " + "INT"
                             else:   
                                  lexer = lexer + " " + "var"
+                    if letra in listanum:
+                        lexer = lexer + " " + "INT"
+                    
                     if letra in diccionario:
                         lexer = lexer + " " + diccionario[letra] 
                         # hacer que escriba en un archivo lo que dice el lexer
@@ -75,6 +109,7 @@ def leer_archivo(ruta)->None:
                
     print(lexer)
     pass
+
 
 
 print(leer_archivo("programa.txt"))
