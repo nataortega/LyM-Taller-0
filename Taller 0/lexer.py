@@ -22,7 +22,6 @@ def crear_diccionario()-> dict:
        #PALABRAS RESERVADAS
        "vars" : "DECLVAR",
        "procs": "PROCEDIMIENTOS",
-       "putcb" : "PUTCB",
        'if'       : 'IF',
        'else'     : 'ELSE',
        'while'    : 'WHILE',
@@ -85,8 +84,14 @@ def leer_archivo(ruta)->None:
                     
             if(letra in lista) or (letra in listanum):
                 palabracreada = palabracreada.lower()
+                if (letra == "["):
+                    lexer = lexer + " " + "FUNCTION"
+                    lexer = lexer + " " + diccionario[letra]
+                    palabracreada = "y"
                     
-                if (palabracreada in diccionario) or (letra in diccionario) or (letra in listanum):
+                    
+                    
+                elif (palabracreada in diccionario) or (letra in diccionario) or (letra in listanum):
                     print(palabracreada)
                     if(palabracreada in diccionario):         
                         lexer = lexer + " " + diccionario[palabracreada] 
