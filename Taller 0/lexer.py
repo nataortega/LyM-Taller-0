@@ -84,10 +84,10 @@ def leer_archivo(ruta)->None:
                     
             if(letra in lista) or (letra in listanum):
                 palabracreada = palabracreada.lower()
-                if (letra == "["):
+                if (letra == "[") and ("PROCEDIMIENTOS" in lexer):
                     lexer = lexer + " " + "FUNCTION"
                     lexer = lexer + " " + diccionario[letra]
-                    palabracreada = "y"
+                    palabracreada = ""
                     
                     
                     
