@@ -41,7 +41,21 @@ def crear_diccionario()-> dict:
        "moveindir": "MOVEINDIR",
        "jumptothe": "JUMPTOTHE",
        "jumpindir": "JUMPINDIR",
-       "nop": "NOP",
+       "chips": "CHIPS",
+       "balloons": "BALLOONS",
+       "left": "IZQUIERDA",
+       "right": "DERECHA",
+       "front": "ADELANTE",
+       "back": "ATRAS",
+       "west": "OESTE",
+       "south": "SUR",
+       "north": "NORTE",
+       "south": "SUR",
+       "east": "ESTE",
+
+
+       
+       
        #condiciones
        "facing": "FACING",
        "canput": "CANPUT",
