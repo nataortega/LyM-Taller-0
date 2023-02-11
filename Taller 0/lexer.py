@@ -9,12 +9,13 @@ Created on Wed Feb  1 09:57:13 2023
 
 
 
+# -*- coding: utf-8 -*-
 def crear_diccionario()-> dict:
     diccionario={
         "robot_r": "Inicio",
        "(": "PARENTESISABIERTO",
-       ";": "POINTCOME",
-       ",": "COME",
+       ";": "SEMICOLON",
+       ",": "COMMA",
        ":":"dospuntos",
        "[": "SQPARENTESISABIERTO",
        "]": "SQPARENTESISCERRADO",
@@ -25,18 +26,20 @@ def crear_diccionario()-> dict:
        'if'       : 'IF',
        'else'     : 'ELSE',
        'while'    : 'WHILE',
-       'break'    : 'BREAK',
-       'continue' : 'CONTINUE',
+       #'break'    : 'BREAK',
+       #'continue' : 'CONTINUE',
        "repeat" : "REPEAT",
        "do": "DO",
+       "then" : "THEN",
        #INSTRUCCIONES
        "put":"PUT",
+       "nop": "NOP",
        "assignto":"ASSIGNTO",
        "goto": "GOTO",
-       "move": "CANMOVETOTHE",
-       "turn": "CANMOVETOTHE",
-       "face": "CANMOVETOTHE",
-       "pick": "CANMOVETOTHE",
+       "move": "MOVE",
+       "turn": "TURN",
+       "face": "FACE",
+       "pick": "PICK",
        "movetothe": "MOVETOTHE",
        "moveindir": "MOVEINDIR",
        "jumptothe": "JUMPTOTHE",
@@ -52,6 +55,7 @@ def crear_diccionario()-> dict:
        "north": "NORTE",
        "south": "SUR",
        "east": "ESTE",
+       "around":"AROUND",
 
 
        
@@ -70,8 +74,11 @@ def crear_diccionario()-> dict:
         
         }    
     return diccionario
+def otroDic()-> dict:
+    diccionario={
 
-
+    }
+    return diccionario
 
 def crear_lista():
     lista = [
@@ -90,6 +97,11 @@ def leer_archivo(ruta)->None:
     lista = crear_lista()
     listanum = listanumeros()
     diccionario = crear_diccionario()
+    diccionario2 = otroDic()
+    lastword =""
+    diccionariofunciones = {}
+    contador_or = 0
+    temporal = "."
     for linea in archivo :
         linea = " " + linea + " " 
     
@@ -98,35 +110,77 @@ def leer_archivo(ruta)->None:
                     
             if(letra in lista) or (letra in listanum):
                 palabracreada = palabracreada.lower()
-                if (letra == "[") and ("PROCEDIMIENTOS" in lexer):
-                    lexer = lexer + " " + "FUNCTION"
-                    lexer = lexer + " " + diccionario[letra]
-                    palabracreada = ""
+                if ((letra == "[") and((lastword == "PROCEDIMIENTOS") or (lastword == "SQPARENTESISCERRADO"))) or (palabracreada in diccionariofunciones):
+                        
+                    if palabracreada != "":
+                        lexer = lexer + " " + palabracreada
+                        diccionario2[palabracreada] = palabracreada
+                        diccionario[palabracreada] = palabracreada
+                        palabracreada = ""
+                    if letra == "[":
+                        lexer = lexer + " " + diccionario[letra]
+                        lastword = diccionario[letra]
                     
                     
                     
                 elif (palabracreada in diccionario) or (letra in diccionario) or (letra in listanum):
-                    print(palabracreada)
-                    if(palabracreada in diccionario):         
+                    
+                    if(palabracreada in diccionario):   
+                        if (palabracreada == "vars") :
+                            temporal = "variable"
+
+
+                        
+
+
                         lexer = lexer + " " + diccionario[palabracreada] 
+                        lastword = diccionario[palabracreada]
                     elif(palabracreada != ""):
                             if(palabracreada in listanum):
                                 lexer = lexer + " " + "INT"
+                                lastword = "INT"
                             else:   
-                                 lexer = lexer + " " + "var"
+                                if(temporal == "variable"):
+                                    diccionario["var-" + palabracreada] = "var-" + palabracreada
+                                    lexer = lexer + " " + "var"
+                                    lastword = "var"
+                                elif("var-"+palabracreada) in diccionario :
+                                    lexer = lexer + " " + "var"
+                                    lastword = "var"
+                                else:
+                                    lexer = lexer + " " + "ERROR"
+                                    lastword = "var"
+
+
                     if letra in listanum:
                         lexer = lexer + " " + "INT"
+                        lastword = "INT"
                     
                     if letra in diccionario:
+                        if letra == ";":
+                            temporal =""
+                        if(letra == "|"):
+                            contador_or +=1
+                            if(contador_or != 2):
+                                temporal = "variable"
+                            elif(contador_or == 2):
+                                temporal =""
+                                contador_or = 0
+
+                        
                         lexer = lexer + " " + diccionario[letra] 
+                        lastword = diccionario[letra]
                         # hacer que escriba en un archivo lo que dice el lexer
                     
                     palabracreada = ""
             else:
             
                 palabracreada = palabracreada + letra
+           
                
     print(lexer)
+    print(diccionario)
+    print(diccionario2)
     pass
 
 
